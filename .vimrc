@@ -30,4 +30,6 @@ vmap <D-/> <leader>c<Space>
 "unite command
 nmap <leader>f :UniteWithCurrentDir -start-insert buffer file<cr>
 
+" replace the current word
+nmap <leader>o *Ncgn
 
