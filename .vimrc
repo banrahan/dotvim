@@ -30,8 +30,7 @@ set is
 
 "map the comment toggling
 let NERDCreateDefaultMappings=0
-nmap <D-/> :call NERDComment(0, 'toggle')<cr>
-imap <D-/> <C-o>:call NERDComment(0, 'toggle')<cr>
+nmap <leader>/ :call NERDComment(0, 'toggle')<cr>
 
 " replace the current word
 nmap <leader>o *Ncgn
@@ -41,7 +40,29 @@ nnoremap <D-Left> :bprev<cr>
 nnoremap <D-Right> :bnext<cr>
 inoremap <D-Left> <C-o>:bprev<cr>
 inoremap <D-Right> <C-o>:bnext<cr>
-nnoremap <D-d> :bd<cr>
+nnoremap <leader>d :bd<cr>
+
+" ctrl-p
+nnoremap <leader>t :CtrlP<cr>
 
 " Explore stuff
-map <leader>xd :Explore<cr>
+map <silent> ` :call ToggleVExplorer()<cr>
+
+function! ToggleVExplorer() " Toggle Vexplore
+if exists("t:expl_buf_num")
+    let expl_win_num = bufwinnr(t:expl_buf_num)
+    if expl_win_num != -1
+        let cur_win_nr = winnr()
+        exec expl_win_num . 'wincmd w'
+        close
+        exec cur_win_nr . 'wincmd w'
+        unlet t:expl_buf_num
+    else
+        unlet t:expl_buf_num
+    endif
+else
+    exec '1wincmd w'
+    Vexplore
+    let t:expl_buf_num = bufnr("%")
+endif
+endfunction
